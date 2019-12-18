@@ -69,6 +69,7 @@ in
           -log.format ${cfg.logFormat} \
           -log.level ${cfg.logLevel} \
           -web.listen-address ${cfg.listenAddress}:${toString cfg.port} \
+          ${if cfg.authFile != null then "-collectd.auth-file ${cfg.authFile}" else ""} \
           ${collectSettingsArgs} \
           ${concatStringsSep " \\\n  " cfg.extraFlags}
       '';
