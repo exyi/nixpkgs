@@ -68,6 +68,7 @@ in
         ${pkgs.prometheus-collectd-exporter}/bin/collectd_exporter \
           -log.format ${cfg.logFormat} \
           -log.level ${cfg.logLevel} \
+          ${if cfg.authFile != null then "-collectd.auth-file ${cfg.authFile}" else ""} \
           -web.listen-address ${cfg.listenAddress}:${toString cfg.port} \
           ${collectSettingsArgs} \
           ${concatStringsSep " \\\n  " cfg.extraFlags}
