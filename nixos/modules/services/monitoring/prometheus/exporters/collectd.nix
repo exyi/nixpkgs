@@ -61,6 +61,7 @@ in
     collectSettingsArgs = if (cfg.collectdBinary.enable) then ''
       -collectd.listen-address ${cfg.collectdBinary.listenAddress}:${toString cfg.collectdBinary.port} \
       -collectd.security-level ${cfg.collectdBinary.securityLevel} \
+      ${if cfg.collectdBinary.authFile != null then "-collectd.auth-file ${cfg.collectdBinary.authFile}" else ""} \
     '' else "";
   in {
     serviceConfig = {
@@ -69,7 +70,6 @@ in
           -log.format ${cfg.logFormat} \
           -log.level ${cfg.logLevel} \
           -web.listen-address ${cfg.listenAddress}:${toString cfg.port} \
-          ${if cfg.authFile != null then "-collectd.auth-file ${cfg.authFile}" else ""} \
           ${collectSettingsArgs} \
           ${concatStringsSep " \\\n  " cfg.extraFlags}
       '';
